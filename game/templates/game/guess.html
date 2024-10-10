@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Player</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <script>
+        // Timer logic
+        let timeLeft = 20;
+        function countdown() {
+            if (timeLeft <= 0) {
+                document.getElementById("time").innerHTML = "Time's up!";
+                document.getElementById("guess-form").submit();  // Auto-submit when time's up
+            } else {
+                document.getElementById("time").innerHTML = timeLeft + " seconds remaining";
+                timeLeft -= 1;
+            }
+        }
+        setInterval(countdown, 1000);
+    </script>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h1>Guess the Player</h1>
+                    </div>
+                    <div class="card-body text-center">
+                        <!-- Display image -->
+                        <img src="{{ player.image_url }}" alt="Player Image" class="img-fluid mb-3" style="max-height: 300px;">
+
+                        <!-- Display image URL for debugging (you can remove this later) -->
+                        <!-- Form to submit guess -->
+                        <form id="guess-form" method="POST" class="mb-3">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="guess" class="form-label">Your Guess:</label>
+                                <input type="text" name="guess" id="guess" class="form-control" placeholder="Enter player name" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                        </form>
+
+                        <!-- Timer -->
+                        <p id="time" class="text-danger">20 seconds remaining</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (optional but recommended) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
